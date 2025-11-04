@@ -2,6 +2,11 @@ import tkinter as tk
 import random, math
 from tkinter import simpledialog, colorchooser
 
+try:
+    from happiness.ui_menu import attach_happiness_menu
+except Exception:
+    attach_happiness_menu = None
+
 
 class App:
     def __init__(self):
@@ -34,6 +39,10 @@ class App:
         m_tasks.add_command(label="Šachovnice", command=self.chessboard_dialog)
         m_tasks.add_command(label="Terč", command=self.target)
         menubar.add_cascade(label="Úlohy", menu=m_tasks)
+
+        # po vytvoření menubar:
+        if attach_happiness_menu:
+            self._happy = attach_happiness_menu(self.root, menubar)
 
         # Při změně velikosti překreslit poslední úlohu (jednoduše zavoláme znovu)
         self._last_draw = None
